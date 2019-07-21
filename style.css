@@ -8,6 +8,10 @@
   background-color: transparent
 }
 
+#fm-widget-root {
+  display: none !important;
+}
+
 body {
   display: flex;
   flex-direction: column;
