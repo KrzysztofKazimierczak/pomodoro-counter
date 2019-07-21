@@ -1,6 +1,6 @@
 # Work Timer Counter
 
-Moja pierwsza aplikacja napisana w JS. <a>DEMO<a>
+Moja pierwsza aplikacja napisana w JS. <a href="https://krzysztofkazimierczak.github.io/pomodoro-counter/">DEMO<a>
 
 ## FAQ
 1. Ustaw czas pracy.
