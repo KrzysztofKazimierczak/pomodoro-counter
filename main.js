@@ -48,7 +48,7 @@ const changeValue = (e) => {
   let id = e.target.id;
   let changeWork = workTime.textContent;
   let changeBreak = breakTime.textContent;
-
+  seconds.toString().length !== 2 ? seconds = `0${seconds}` : null;
 
   if (id === 'workMore' || id === 'workLess') {
     id === 'workMore' ? changeWork++ : changeWork--;
@@ -56,17 +56,20 @@ const changeValue = (e) => {
     changeWork < 1 ? changeWork = 1 : null;
     changeWork < 10 ? changeWork = `0${changeWork}` : null
     workTime.textContent = changeWork;
+    !resting ? counter.textContent = `${changeWork}.${seconds}` : null;
+    !resting ? minutes = changeWork : null;
   } else if (id === 'breakMore' || id === 'breakLess') {
     id === 'breakMore' ? changeBreak++ : changeBreak--;
     changeBreak > 60 ? changeBreak = 60 : null;
     changeBreak < 1 ? changeBreak = 1 : null
     changeBreak < 10 ? changeBreak = `0${changeBreak}` : null
     breakTime.textContent = changeBreak;
-  }
-  seconds.toString().length !== 2 ? seconds = `0${seconds}` : null;
+    resting ? counter.textContent = `${changeBreak}.${seconds}` : null;
+    resting ? minutes = changeBreak : null;
 
-  !resting ? counter.textContent = `${changeWork}.${seconds}` : counter.textContent = `${changeBreak}.${seconds}`;
-  !resting ? minutes = changeWork : minutes = changeBreak;
+  }
+
+
 
   active ? handleCounter() : null;
 
