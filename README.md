@@ -1,6 +1,6 @@
 # Work Timer Counter
 
-Moja pierwsza aplikacja napisana w JS.
+Moja pierwsza aplikacja napisana w JS. <a>DEMO<a>
 
 ## FAQ
 1. Ustaw czas pracy.
