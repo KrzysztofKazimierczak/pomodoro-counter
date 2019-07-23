@@ -1,84 +1,89 @@
-const divCounter = document.querySelector('.panel')
+// var a = new Date().getTime()
+// window.addEventListener('click', () => {
+//   b = new Date().getTime();
+//   res = b - a;
+//   c = 60;
+//   d = (res + c) / 1000;
+//   console.log(Math.floor(d));
+// })
+
+const divCounter = document.querySelector('.panel');
 const counter = document.querySelector('.counter');
-const btnNavi = document.querySelector('.handle')
+const btnNavi = document.querySelector('.handle');
 const workTime = document.getElementById('workTime');
 const breakTime = document.getElementById('breakTime');
-const arrows = document.querySelectorAll('.value i')
+const arrows = document.querySelectorAll('.value i');
 const beep = new Audio('sound/beep.mp3');
 
-
-let active = false;
-let resting = false;
-let minutes = workTime.textContent;
-let seconds = 0;
-let interval = false;
-
-
-
-const handleCounter = () => {
-
-  if (!active) {
-    active = !active;
-    btnNavi.textContent = "pauza";
-    interval = setInterval(start, 1000)
-    divCounter.style.borderColor = "green";
-  } else {
-    active = !active;
-    btnNavi.textContent = "wznów";
-    clearInterval(interval);
-    divCounter.style.borderColor = "orange";
+class Pomodoro {
+  constructor() {
+    this.active = false;
+    this.resting = false;
+    this.minutes = workTime.textContent;
+    this.seconds = 0;
+    this.interval = false;
+  }
+  handleCounter = () => {
+    console.log('aa');
+    if (!this.active) {
+      this.active = !this.active;
+      btnNavi.textContent = "pauza";
+      this.interval = setInterval(this.start, 1000);
+      divCounter.style.borderColor = "green";
+    } else {
+      this.active = !this.active;
+      btnNavi.textContent = "wznów";
+      clearInterval(this.interval);
+      divCounter.style.borderColor = "orange";
+    }
   }
 
-}
-
-const start = () => {
-  if (!minutes && !seconds) {
-    beep.play();
-    !resting ? alert("Czas na przerwę") : alert("Pora wracać do pracy");
-    !resting ? minutes = parseInt(breakTime.textContent) : minutes = parseInt(workTime.textContent);
-    resting = !resting;
-  }
-  seconds == 0 ? minutes-- : minutes;
-  seconds == 0 ? seconds = 59 : seconds--;
-  let time = `${minutes}.${seconds}`;
-  minutes.toString().length === 1 ? counter.textContent = `0${time}` : counter.textContent = time;
-}
-
-const changeValue = (e) => {
-  let id = e.target.id;
-  let changeWork = workTime.textContent;
-  let changeBreak = breakTime.textContent;
-  seconds.toString().length !== 2 ? seconds = `0${seconds}` : null;
-
-  if (id === 'workMore' || id === 'workLess') {
-    id === 'workMore' ? changeWork++ : changeWork--;
-    changeWork > 60 ? changeWork = 60 : null;
-    changeWork < 1 ? changeWork = 1 : null;
-    changeWork < 10 ? changeWork = `0${changeWork}` : null
-    workTime.textContent = changeWork;
-    !resting ? counter.textContent = `${changeWork}.${seconds}` : null;
-    !resting ? minutes = changeWork : null;
-  } else if (id === 'breakMore' || id === 'breakLess') {
-    id === 'breakMore' ? changeBreak++ : changeBreak--;
-    changeBreak > 60 ? changeBreak = 60 : null;
-    changeBreak < 1 ? changeBreak = 1 : null
-    changeBreak < 10 ? changeBreak = `0${changeBreak}` : null
-    breakTime.textContent = changeBreak;
-    resting ? counter.textContent = `${changeBreak}.${seconds}` : null;
-    resting ? minutes = changeBreak : null;
-
+  start = () => {
+    if (!this.minutes && !this.seconds) {
+      beep.play();
+      !this.resting ? alert("Czas na przerwę") : alert("Pora wracać do pracy");
+      !this.resting ? this.minutes = parseInt(breakTime.textContent) : minutes = parseInt(workTime.textContent);
+      this.resting = !this.resting;
+    }
+    this.seconds == 0 ? this.minutes-- : this.minutes;
+    this.seconds == 0 ? this.seconds = 59 : this.seconds--;
+    this.time = `${this.minutes}.${this.seconds}`;
+    this.minutes.toString().length === 1 ? counter.textContent = `0${this.time}` : counter.textContent = this.time;
   }
 
+  changeValue = (e) => {
+    let id = e.target.id;
+    let changeWork = workTime.textContent;
+    let changeBreak = breakTime.textContent;
+    this.seconds.toString().length !== 2 ? this.seconds = `0${this.seconds}` : null;
 
-
-  active ? handleCounter() : null;
-
+    if (id === 'workMore' || id === 'workLess') {
+      id === 'workMore' ? changeWork++ : changeWork--;
+      changeWork > 60 ? changeWork = 60 : null;
+      changeWork < 1 ? changeWork = 1 : null;
+      changeWork < 10 ? changeWork = `0${changeWork}` : null
+      workTime.textContent = changeWork;
+      !this.resting ? counter.textContent = `${changeWork}.${this.seconds}` : null;
+      !this.resting ? this.minutes = changeWork : null;
+    } else if (id === 'breakMore' || id === 'breakLess') {
+      id === 'breakMore' ? changeBreak++ : changeBreak--;
+      changeBreak > 60 ? changeBreak = 60 : null;
+      changeBreak < 1 ? changeBreak = 1 : null;
+      changeBreak < 10 ? changeBreak = `0${changeBreak}` : null
+      breakTime.textContent = changeBreak;
+      this.resting ? counter.textContent = `${changeBreak}.${this.seconds}` : null;
+      this.resting ? this.minutes = changeBreak : null;
+    }
+    this.active ? this.handleCounter() : null;
+  }
 }
 
-counter.textContent = parseInt(minutes).toFixed(2);
+const pomodoro = new Pomodoro();
 
-divCounter.addEventListener('click', handleCounter);
+counter.textContent = parseInt(pomodoro.minutes).toFixed(2);
+
+divCounter.addEventListener('click', pomodoro.handleCounter);
 
 for (arrow of arrows) {
-  arrow.addEventListener("click", changeValue);
+  arrow.addEventListener("click", pomodoro.changeValue);
 }
