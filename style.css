@@ -63,7 +63,7 @@ div {
 
 .handle {
   position: absolute;
-  top: 80%;
+  bottom: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
@@ -91,7 +91,7 @@ div {
 
 .settings p {
   position: absolute;
-  top: 25%;
+  bottom: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: .7em;
