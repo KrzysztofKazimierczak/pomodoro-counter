@@ -9,8 +9,6 @@ Moja pierwsza aplikacja napisana w JS. <a href="https://krzysztofkazimierczak.gi
 4. Możesz w dowolnej chwili zatrzymać licznik poprzez ponowne kliknięcie na niego.
 
 ### CHEATS
-Jeśli chcesz przetestować aplikację bez czekania do końca odliczania, przypisz w konsoli następujące wartości:
+Jeśli chcesz przetestować aplikację bez czekania do końca odliczania, wpisz w konsoli:
 
-minutes = 0; 
-seconds = 3;
-
+pomodoro.times[0,3,100]
