@@ -1,8 +1,3 @@
-// // DO ZROBIENIA
-// this traci ważność przy requestAnimationFrame;
-// metorda = ()=>{} nie działa na ie i fire
-
-
 const divCounter = document.querySelector('.panel');
 const spanMin = document.querySelector('.min')
 const spanSec = document.querySelector('.sec')
