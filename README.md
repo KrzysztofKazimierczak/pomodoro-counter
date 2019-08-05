@@ -11,4 +11,4 @@ Moja pierwsza aplikacja napisana w JS. <a href="https://krzysztofkazimierczak.gi
 ### CHEATS
 Jeśli chcesz przetestować aplikację bez czekania do końca odliczania, wpisz w konsoli:
 
-pomodoro.times[0,3,100]
+pomodoro.times = [0,3,100]
