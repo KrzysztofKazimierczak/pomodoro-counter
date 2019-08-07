@@ -30,7 +30,9 @@ class Pomodoro {
   }
 
   step(nowTime) {
-    if (!this.active) return;
+    if (!this.active) {
+      return
+    };
     this.compute(nowTime);
     this.startTime = nowTime;
     this.show();
@@ -38,7 +40,9 @@ class Pomodoro {
   }
 
   compute(nowTime) {
-    if (!this.times[0] && !this.times[1]) this.notify();
+    if (!this.times[0] && !this.times[1]) {
+      this.notify()
+    }
     const centisecond = nowTime - this.startTime;
     this.times[2] -= centisecond / 10;
     if (this.times[2] < 0) {
@@ -67,30 +71,46 @@ class Pomodoro {
     this.resting = !this.resting;
   }
 
-  changeValue(e) {
+  handleSettings(e) {
     const id = e.target.id;
     let changeWork = workTime.textContent;
     let changeBreak = breakTime.textContent;
     const stopCounter = () => {
       this.handleCounter();
-      this.times[1] = 0
+      this.times[1] = 0;
     }
+    const changeValue = (value, spanTime) => {
+      switch (value) {
+        case 61:
+          value = 60;
+          break;
+        case 0:
+          value = 1;
+          break;
+      }
+      value < 10 ? spanTime.textContent = `0${value}` : spanTime.textContent = value;
+      return value;
+    }
+
     if (id === 'workMore' || id === 'workLess') {
       id === 'workMore' ? changeWork++ : changeWork--;
-      changeWork > 60 ? changeWork = 60 : null;
-      changeWork < 1 ? changeWork = 1 : null;
-      !this.resting ? this.times[0] = changeWork : null;
-      changeWork < 10 ? changeWork = `0${changeWork}` : null
-      workTime.textContent = changeWork;
-      !this.resting && this.active ? stopCounter() : null;
+      changeWork = changeValue(changeWork, workTime);
+      if (!this.resting && this.active) {
+        stopCounter()
+      }
+      if (!this.resting) {
+        this.times[0] = changeWork
+      }
+
     } else if (id === 'breakMore' || id === 'breakLess') {
       id === 'breakMore' ? changeBreak++ : changeBreak--;
-      changeBreak > 60 ? changeBreak = 60 : null;
-      changeBreak < 1 ? changeBreak = 1 : null;
-      this.resting ? this.times[0] = changeBreak : null;
-      changeBreak < 10 ? changeBreak = `0${changeBreak}` : null
-      breakTime.textContent = changeBreak;
-      this.resting && this.active ? stopCounter() : null;
+      changeBreak = changeValue(changeBreak, breakTime);
+      if (this.resting && this.active) {
+        stopCounter()
+      };
+      if (this.resting) {
+        this.times[0] = changeBreak
+      }
     }
     this.show()
   }
@@ -101,5 +121,5 @@ const pomodoro = new Pomodoro();
 divCounter.addEventListener('click', () => pomodoro.handleCounter());
 
 for (arrow of arrows) {
-  arrow.addEventListener("click", e => pomodoro.changeValue(e));
+  arrow.addEventListener("click", e => pomodoro.handleSettings(e));
 }
