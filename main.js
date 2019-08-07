@@ -77,9 +77,10 @@ class Pomodoro {
     let changeBreak = breakTime.textContent;
     const stopCounter = () => {
       this.handleCounter();
-      this.times[1] = 0;
+      this.times[1] = 0; //secs
     }
     const changeValue = (value, spanTime) => {
+      // make value between 1 and 60
       switch (value) {
         case 61:
           value = 60;
@@ -88,6 +89,7 @@ class Pomodoro {
           value = 1;
           break;
       }
+      // make always two digits
       value < 10 ? spanTime.textContent = `0${value}` : spanTime.textContent = value;
       return value;
     }
@@ -95,21 +97,23 @@ class Pomodoro {
     if (id === 'workMore' || id === 'workLess') {
       id === 'workMore' ? changeWork++ : changeWork--;
       changeWork = changeValue(changeWork, workTime);
-      if (!this.resting && this.active) {
-        stopCounter()
-      }
       if (!this.resting) {
+        // change counter if u are working
         this.times[0] = changeWork
+      }
+      if (!this.resting && this.active) {
+        // stop counter only if you are working and its counting
+        stopCounter()
       }
 
     } else if (id === 'breakMore' || id === 'breakLess') {
       id === 'breakMore' ? changeBreak++ : changeBreak--;
       changeBreak = changeValue(changeBreak, breakTime);
-      if (this.resting && this.active) {
-        stopCounter()
-      };
       if (this.resting) {
         this.times[0] = changeBreak
+      }
+      if (this.resting && this.active) {
+        stopCounter()
       }
     }
     this.show()
