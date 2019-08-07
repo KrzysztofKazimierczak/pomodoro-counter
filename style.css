@@ -89,12 +89,13 @@ div {
 
 }
 
-.settings p {
+.settings h2 {
   position: absolute;
   bottom: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: .7em;
+  font-weight: 400;
 }
 
 .value {
@@ -123,7 +124,16 @@ div {
     width: 300px;
     height: 300px;
   }
+}
 
+@media (max-width: 700px) {
+  .settings h2 {
+    font-size: 0.5em;
+  }
+
+  .value i {
+    font-size: 0.8em;
+  }
 }
 
 @media (max-width: 549px) {
@@ -135,11 +145,14 @@ div {
     width: 50vw;
     height: 50vw;
   }
-
 }
 
 @media (max-width: 379px) {
   body {
     font-size: 18px;
+  }
+
+  .value i {
+    margin: 0 5px;
   }
 }
