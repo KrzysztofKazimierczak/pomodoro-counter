@@ -2,17 +2,18 @@ const divCounter = document.querySelector('.panel');
 const spanMin = document.querySelector('.min')
 const spanSec = document.querySelector('.sec')
 const btnNavi = document.querySelector('.handle');
-const workTime = document.getElementById('workTime');
-const breakTime = document.getElementById('breakTime');
+const workTimeSpan = document.getElementById('workTime');
+const breakTimeSpan = document.getElementById('breakTime');
 const arrows = document.querySelectorAll('.value i');
 const beep = new Audio('sound/beep.mp3');
-
 
 class Pomodoro {
   constructor() {
     this.active = false;
     this.resting = false;
-    this.times = [workTime.textContent, 0, 100] // min,sec,cs
+    this.minutes = workTimeSpan.textContent;
+    this.seconds = 0
+    this.centisecs = 100
   }
 
   handleCounter() {
@@ -40,83 +41,84 @@ class Pomodoro {
   }
 
   compute(nowTime) {
-    if (!this.times[0] && !this.times[1]) {
+    if (!this.minutes && !this.seconds) {
       this.notify()
     }
     const centisecond = nowTime - this.startTime;
-    this.times[2] -= centisecond / 10;
-    if (this.times[2] < 0) {
-      this.times[1]--;
-      this.times[2] = 100;
+    this.centisecs -= centisecond / 10;
+    if (this.centisecs < 0) {
+      this.seconds--;
+      this.centisecs = 100;
     }
-    if (this.times[1] < 0) {
-      this.times[0]--;
-      this.times[1] = 59;
+    if (this.seconds < 0) {
+      this.minutes--;
+      this.seconds = 59;
     }
   }
 
   show() {
-    this.times[0] < 10 ? spanMin.textContent = `0${this.times[0]}` : spanMin.textContent = this.times[0];
-    this.times[1] < 10 ? spanSec.textContent = `0${this.times[1]}` : spanSec.textContent = this.times[1];
+    this.minutes < 10 ? spanMin.textContent = `0${this.minutes}` : spanMin.textContent = this.minutes;
+    this.seconds < 10 ? spanSec.textContent = `0${this.seconds}` : spanSec.textContent = this.seconds;
   }
   notify() {
     beep.play();
     if (!this.resting) {
       alert("Czas na przerwę")
-      this.times[0] = breakTime.textContent;
+      this.minutes = breakTimeSpan.textContent;
     } else {
       alert("Pora wracać do pracy");
-      this.times[0] = workTime.textContent
+      this.minutes = workTimeSpan.textContent
     }
     this.resting = !this.resting;
   }
 
   handleSettings(e) {
     const id = e.target.id;
-    let changeWork = workTime.textContent;
-    let changeBreak = breakTime.textContent;
-    const stopCounter = () => {
-      this.handleCounter();
-      this.times[1] = 0; //secs
-    }
-    const changeValue = (value, spanTime) => {
-      // make value between 1 and 60
-      switch (value) {
-        case 61:
-          value = 60;
-          break;
-        case 0:
-          value = 1;
-          break;
-      }
-      // make always two digits
-      value < 10 ? spanTime.textContent = `0${value}` : spanTime.textContent = value;
-      return value;
-    }
+    let workTimeValue = workTimeSpan.textContent;
+    let breakTimeValue = breakTimeSpan.textContent;
 
     if (id === 'workMore' || id === 'workLess') {
-      id === 'workMore' ? changeWork++ : changeWork--;
-      changeWork = changeValue(changeWork, workTime);
+      id === 'workMore' ? workTimeValue++ : workTimeValue--;
+      workTimeValue = this.changeValue(workTimeValue, breakTimeValue, workTimeSpan);
       if (!this.resting) {
-        // change counter if u are working
-        this.times[0] = changeWork
-      }
-      if (!this.resting && this.active) {
-        // stop counter only if you are working and its counting
-        stopCounter()
+        this.minutes = workTimeValue
       }
 
     } else if (id === 'breakMore' || id === 'breakLess') {
-      id === 'breakMore' ? changeBreak++ : changeBreak--;
-      changeBreak = changeValue(changeBreak, breakTime);
+      id === 'breakMore' ? breakTimeValue++ : breakTimeValue--;
+      breakTimeValue = this.changeValue(breakTimeValue, workTimeValue, breakTimeSpan);
       if (this.resting) {
-        this.times[0] = changeBreak
-      }
-      if (this.resting && this.active) {
-        stopCounter()
+        this.minutes = breakTimeValue
       }
     }
     this.show()
+  }
+
+  changeValue(changedValue, secondValue, span) {
+    switch (changedValue) {
+      case 61:
+        changedValue = 60;
+        break;
+      case 0:
+        changedValue = 1;
+        break;
+    }
+    // make always two-digit number
+    changedValue < 10 ? span.textContent = `0${changedValue}` : span.textContent = changedValue;
+
+
+    // stop counter if changing current countdown
+    if (!this.resting && this.active && changedValue == workTimeSpan.textContent && changedValue != secondValue) {
+      this.stopCounter()
+    } else if (this.resting && this.active && changedValue == breakTimeSpan.textContent && changedValue != secondValue) {
+      this.stopCounter()
+    }
+    return changedValue;
+  }
+
+  stopCounter() {
+    this.handleCounter();
+    this.seconds = 0;
   }
 }
 
