@@ -20,13 +20,13 @@ class Pomodoro {
     if (!this.active) {
       this.active = !this.active;
       btnNavi.textContent = "pauza";
-      divCounter.style.borderColor = "green";
+      divCounter.style.borderColor = "#3EC169";
       this.startTime = performance.now();
       requestAnimationFrame(this.step.bind(this));
     } else {
       this.active = !this.active;
       btnNavi.textContent = "wznów";
-      divCounter.style.borderColor = "orange";
+      divCounter.style.borderColor = "#B2DBBF";
     }
   }
 

@@ -15,35 +15,36 @@
 body {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   align-items: center;
   height: 100vh;
-  background-color: #333;
-  color: white;
+  background-color: #F6F7EB;
+  color: #3D5A6C;
   font-family: sans-serif;
   font-size: 36px;
   text-transform: uppercase;
+  min-width: 300px;
 }
 
 h1 {
   font-size: 1em;
   letter-spacing: 2px;
-  margin-top: 20px;
+  margin: 20px auto;
+  font-family: 'Merienda', cursive;
 }
 
 .app {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  flex-grow: 1;
   width: 100%;
-  flex-basis: 80%;
 }
 
 div {
-  width: 300px;
-  height: 300px;
-  border: solid cadetblue 3px;
+  border: 6px solid #3EC169;
   border-radius: 50%;
+  background-color: #FF1654;
+  color: #F6F7EB
 }
 
 .panel {
@@ -51,6 +52,12 @@ div {
   cursor: pointer;
   align-self: center;
   z-index: 2;
+  width: 20vw;
+  height: 20vw;
+  max-width: 384px;
+  max-height: 384px;
+  min-width: 115px;
+  min-height: 115px;
 }
 
 .counter {
@@ -66,9 +73,9 @@ div {
   bottom: 15%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: white;
   font-size: .7em;
   text-transform: uppercase;
+  letter-spacing: 2px;
   opacity: 0;
   transition: .3s linear;
 }
@@ -79,14 +86,19 @@ div {
 
 .interface {
   display: flex;
-  justify-content: space-around;
-  padding: 0 15%;
+  justify-content: center;
 }
 
 .settings {
   position: relative;
   text-align: center;
-
+  width: 15vw;
+  height: 15vw;
+  margin: 0 15px;
+  max-width: 288px;
+  max-height: 288px;
+  /* min-height: 120px;
+  min-width: 120px; */
 }
 
 .settings h2 {
@@ -114,15 +126,57 @@ div {
   cursor: pointer
 }
 
-@media(max-width: 1023px) {
-  div {
-    width: 30vw;
-    height: 30vw;
+
+@media(max-height: 600px) and (orientation:landscape) {
+  .app .panel {
+    width: 40vh;
+    height: 40vh;
   }
 
+  .app .settings {
+    width: 30vh;
+    height: 30vh;
+  }
+
+  body .app {
+    font-size: 30px
+  }
+
+  .value i {
+    margin: 0 2px;
+  }
+
+  .settings h2,
+  .panel .handle {
+    bottom: 10%;
+  }
+}
+
+@media(max-height: 470px) and (orientation:landscape) {
+
+  body .app {
+    font-size: 22px
+  }
+
+  h1 {
+    font-size: .8em;
+  }
+
+  .app .panel {
+    width: 35vh;
+    height: 35vh;
+  }
+}
+
+@media(max-width: 1365px) {
   .panel {
-    width: 300px;
-    height: 300px;
+    width: 265px;
+    height: 265px;
+  }
+
+  .settings {
+    width: 200px;
+    height: 200px;
   }
 }
 
@@ -136,23 +190,36 @@ div {
   }
 }
 
-@media (max-width: 549px) {
-  body {
-    font-size: 26px;
+@media (max-width: 500px) {
+  .settings {
+    width: 40vw;
+    height: 40vw;
   }
 
   .panel {
-    width: 50vw;
-    height: 50vw;
+    width: 55vw;
+    height: 55vw;
+  }
+
+  h1 {
+    font-size: .8em;
+  }
+}
+
+@media (max-width:400px) {
+
+  .settings h2,
+  .panel .handle {
+    bottom: 10%;
   }
 }
 
 @media (max-width: 379px) {
-  body {
-    font-size: 18px;
+  .value i {
+    margin: 0 2px;
   }
 
-  .value i {
-    margin: 0 5px;
+  body {
+    font-size: 30px;
   }
 }
